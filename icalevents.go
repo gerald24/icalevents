@@ -26,11 +26,11 @@ typedef struct CEvent {
 typedef struct CEventsResult {
 	char* error;
 	int count;
-    CEvent** events;
+	CEvent** events;
 } CEventsResult;
 
 CEvent* event_at(CEvent** events, int idx) {
-    return events[idx];
+	return events[idx];
 }
 
 NSString* initEventStore() {
@@ -52,7 +52,6 @@ NSString* initEventStore() {
 	dispatch_semaphore_wait(mySemaphore, DISPATCH_TIME_FOREVER);
 
 	if (!success) {
-		[es release];
 		return @"calendar not accessible";
 	}
 
@@ -70,12 +69,11 @@ CEventsResult* createErrorResult(NSString* errorMessage) {
 	CEventsResult* result = malloc(sizeof(struct CEventsResult *));
 	result->error = strdup((char*)[errorMessage UTF8String]);
 	result->count = 0;
-	[errorMessage release];
 	return result;
 }
 
 CEventsResult* LoadCalendarNamed(char* calendarCName) {
-    @autoreleasepool {
+	@autoreleasepool {
 		NSString* err = initEventStore();
 		if (err != NULL) {
 			return createErrorResult(err);
@@ -108,9 +106,7 @@ CEventsResult* LoadCalendarNamed(char* calendarCName) {
 		[dateComponents setSecond: 0];
 		NSDate* startDate = [gregorian dateFromComponents: dateComponents];
 
-		NSPredicate* predicate = [eventStore predicateForEventsWithStartDate: startDate
-																	 endDate: endDate
-																   calendars: [NSArray arrayWithObject: calendar]];
+		NSPredicate* predicate = [eventStore predicateForEventsWithStartDate: startDate endDate: endDate calendars: [NSArray arrayWithObject: calendar]];
 
 		NSArray* unsortedEvents = [eventStore eventsMatchingPredicate: predicate];
 
