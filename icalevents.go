@@ -44,7 +44,7 @@ NSString* initEventStore() {
 	__block BOOL success;
 
 	EKEventStore* es = [[EKEventStore alloc] init];
-	[es requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
+	[es requestFullAccessToEventsWithCompletion:^(BOOL granted, NSError *error) {
 		success = granted;
 		dispatch_semaphore_signal(mySemaphore);
 	}];
